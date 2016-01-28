@@ -1395,6 +1395,9 @@ _cairo_win32_printing_surface_paint (void			*abstract_surface,
 static int
 _cairo_win32_line_cap (cairo_line_cap_t cap)
 {
+
+    //TODO add LINE_CAP_TRIANGULAR
+
     switch (cap) {
     case CAIRO_LINE_CAP_BUTT:
 	return PS_ENDCAP_FLAT;

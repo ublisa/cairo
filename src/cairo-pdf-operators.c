@@ -588,6 +588,8 @@ _cairo_pdf_line_cap (cairo_line_cap_t cap)
 	return 1;
     case CAIRO_LINE_CAP_SQUARE:
 	return 2;
+    case CAIRO_LINE_CAP_TRIANGULAR:
+	return 3;
     default:
 	ASSERT_NOT_REACHED;
 	return 0;

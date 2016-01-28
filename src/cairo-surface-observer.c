@@ -1652,7 +1652,10 @@ print_fill_rule (cairo_output_stream_t *stream, unsigned int *array)
 }
 
 static const char *cap_names[] = {
-    "butt",		/* CAIRO_LINE_CAP_BUTT */
+
+    //TODO add LINE_CAP_TRIANGULAR, search "butt"/"square"
+
+    "butt",	/* CAIRO_LINE_CAP_BUTT */
     "round",	/* CAIRO_LINE_CAP_ROUND */
     "square"	/* CAIRO_LINE_CAP_SQUARE */
 };

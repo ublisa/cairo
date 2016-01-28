@@ -577,6 +577,8 @@ _cairo_quartz_cairo_line_cap_to_quartz (cairo_line_cap_t ccap)
     default:
 	ASSERT_NOT_REACHED;
 
+    //TODO add LINE_CAP_TRIANGULAR
+
     case CAIRO_LINE_CAP_BUTT:
 	return kCGLineCapButt;
 

@@ -749,6 +749,9 @@ add_cap (struct stroker *stroker,
 	 const cairo_stroke_face_t *f,
 	 struct stroke_contour *c)
 {
+
+    //TODO add LINE_CAP_TRIANGULAR
+
     switch (stroker->style.line_cap) {
     case CAIRO_LINE_CAP_ROUND: {
 	cairo_slope_t slope;

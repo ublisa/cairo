@@ -629,6 +629,9 @@ static cairo_status_t
 _cairo_stroker_add_cap (cairo_stroker_t *stroker,
 			const cairo_stroke_face_t *f)
 {
+
+    //TODO add LINE_CAP_TRIANGULAR
+
     switch (stroker->style.line_cap) {
     case CAIRO_LINE_CAP_ROUND: {
 	cairo_slope_t slope;
@@ -662,6 +665,50 @@ _cairo_stroker_add_cap (cairo_stroker_t *stroker,
 	quad[1].y = f->ccw.y + fvector.dy;
 	quad[2].x = f->cw.x + fvector.dx;
 	quad[2].y = f->cw.y + fvector.dy;
+	quad[3] = f->cw;
+
+	if (stroker->add_external_edge != NULL) {
+	    cairo_status_t status;
+
+	    status = stroker->add_external_edge (stroker->closure,
+						 &quad[0], &quad[1]);
+	    if (unlikely (status))
+		return status;
+
+	    status = stroker->add_external_edge (stroker->closure,
+						 &quad[1], &quad[2]);
+	    if (unlikely (status))
+		return status;
+
+	    status = stroker->add_external_edge (stroker->closure,
+						 &quad[2], &quad[3]);
+	    if (unlikely (status))
+		return status;
+
+	    return CAIRO_STATUS_SUCCESS;
+	} else {
+	    return stroker->add_convex_quad (stroker->closure, quad);
+	}
+    }
+
+    case CAIRO_LINE_CAP_TRIANGULAR: {
+	double dx, dy;
+	cairo_slope_t	fvector;
+	cairo_point_t	quad[4]; // ??? Don't know if 3 works, looks like must be quad
+
+	dx = f->usr_vector.x;
+	dy = f->usr_vector.y;
+	dx *= stroker->half_line_width;
+	dy *= stroker->half_line_width;
+	cairo_matrix_transform_distance (stroker->ctm, &dx, &dy);
+	fvector.dx = _cairo_fixed_from_double (dx);
+	fvector.dy = _cairo_fixed_from_double (dy);
+
+	quad[0] = f->ccw;
+	quad[1].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
+	quad[1].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
+	quad[2].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
+	quad[2].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
 	quad[3] = f->cw;
 
 	if (stroker->add_external_edge != NULL) {

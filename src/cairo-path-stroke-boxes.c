@@ -118,6 +118,8 @@ _cairo_rectilinear_stroker_init (cairo_rectilinear_stroker_t	*stroker,
     if (stroke_style->miter_limit < M_SQRT2)
 	return FALSE;
 
+    //TODO add LINE_CAP_TRIANGULAR
+
     if (! (stroke_style->line_cap == CAIRO_LINE_CAP_BUTT ||
 	   stroke_style->line_cap == CAIRO_LINE_CAP_SQUARE))
     {
@@ -367,6 +369,9 @@ _cairo_rectilinear_stroker_emit_segments_dashed (cairo_rectilinear_stroker_t *st
 
 	/* Perform the adjustments of the endpoints. */
 	if (is_horizontal) {
+
+	    //TODO add LINE_CAP_TRIANGULAR
+
 	    if (line_cap == CAIRO_LINE_CAP_SQUARE) {
 		if (a->x <= b->x) {
 		    a->x -= half_line_x;

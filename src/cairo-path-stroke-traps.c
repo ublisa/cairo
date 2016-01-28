@@ -474,6 +474,9 @@ join (struct stroker *stroker,
 static void
 add_cap (struct stroker *stroker, cairo_stroke_face_t *f)
 {
+
+    //TODO add LINE_CAP_TRIANGULAR
+
     switch (stroker->style->line_cap) {
     case CAIRO_LINE_CAP_ROUND: {
 	int start, stop;
