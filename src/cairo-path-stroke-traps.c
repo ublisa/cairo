@@ -475,7 +475,7 @@ static void
 add_cap (struct stroker *stroker, cairo_stroke_face_t *f)
 {
 
-    //TODO add LINE_CAP_TRIANGULAR
+    //TODO DONE add LINE_CAP_TRIANGULAR
 
     switch (stroker->style->line_cap) {
     case CAIRO_LINE_CAP_ROUND: {
@@ -533,6 +533,30 @@ add_cap (struct stroker *stroker, cairo_stroke_face_t *f)
 	quad[1].y = f->cw.y + fvector.dy;
 	quad[2].x = f->ccw.x + fvector.dx;
 	quad[2].y = f->ccw.y + fvector.dy;
+	quad[3] = f->ccw;
+
+	_cairo_traps_tessellate_convex_quad (stroker->traps, quad);
+	break;
+    }
+
+    case CAIRO_LINE_CAP_TRIANGULAR: {
+	double dx, dy;
+	cairo_slope_t fvector;
+	cairo_point_t quad[4];
+
+	dx = f->usr_vector.x;
+	dy = f->usr_vector.y;
+	dx *= stroker->half_line_width;
+	dy *= stroker->half_line_width;
+	cairo_matrix_transform_distance (stroker->ctm, &dx, &dy);
+	fvector.dx = _cairo_fixed_from_double (dx);
+	fvector.dy = _cairo_fixed_from_double (dy);
+
+	quad[0] = f->cw;
+	quad[1].x = (f->cw.x + f->ccw.x) / 2 + fvector.dx;
+	quad[1].y = (f->cw.y + f->ccw.y) / 2 + fvector.dy;
+	quad[2].x = quad[1].x;
+	quad[2].y = quad[1].y;
 	quad[3] = f->ccw;
 
 	_cairo_traps_tessellate_convex_quad (stroker->traps, quad);

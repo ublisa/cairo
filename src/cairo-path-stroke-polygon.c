@@ -750,7 +750,7 @@ add_cap (struct stroker *stroker,
 	 struct stroke_contour *c)
 {
 
-    //TODO add LINE_CAP_TRIANGULAR
+    //TODO DONE add LINE_CAP_TRIANGULAR
 
     switch (stroker->style.line_cap) {
     case CAIRO_LINE_CAP_ROUND: {
@@ -783,6 +783,26 @@ add_cap (struct stroker *stroker,
 	p.x = f->cw.x + fvector.dx;
 	p.y = f->cw.y + fvector.dy;
 	contour_add_point (stroker, c, &p);
+	break;
+    }
+
+    case CAIRO_LINE_CAP_TRIANGULAR: {
+	cairo_slope_t fvector;
+	cairo_point_t p;
+	double dx, dy;
+
+	dx = f->usr_vector.x;
+	dy = f->usr_vector.y;
+	dx *= stroker->half_line_width;
+	dy *= stroker->half_line_width;
+	cairo_matrix_transform_distance (stroker->ctm, &dx, &dy);
+	fvector.dx = _cairo_fixed_from_double (dx);
+	fvector.dy = _cairo_fixed_from_double (dy);
+
+	p.x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
+	p.y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
+	contour_add_point (stroker, c, &p);
+	break;
     }
 
     case CAIRO_LINE_CAP_BUTT:

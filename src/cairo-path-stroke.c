@@ -630,7 +630,7 @@ _cairo_stroker_add_cap (cairo_stroker_t *stroker,
 			const cairo_stroke_face_t *f)
 {
 
-    //TODO add LINE_CAP_TRIANGULAR
+    //TODO DONE add LINE_CAP_TRIANGULAR
 
     switch (stroker->style.line_cap) {
     case CAIRO_LINE_CAP_ROUND: {

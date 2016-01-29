@@ -2097,7 +2097,7 @@ _cairo_svg_surface_emit_stroke_style (cairo_output_stream_t	   *output,
 
     switch (stroke_style->line_cap) {
 
-    //TODO add LINE_CAP_TRIANGULAR, check words again
+    //TODO DONE add LINE_CAP_TRIANGULAR, check words again
 
 	case CAIRO_LINE_CAP_BUTT:
 	    line_cap = "butt";
@@ -2107,6 +2107,9 @@ _cairo_svg_surface_emit_stroke_style (cairo_output_stream_t	   *output,
 	    break;
 	case CAIRO_LINE_CAP_SQUARE:
 	    line_cap = "square";
+	    break;
+        case CAIRO_LINE_CAP_TRIANGULAR:
+	    line_cap = "triangular";
 	    break;
 	default:
 	    ASSERT_NOT_REACHED;

@@ -680,7 +680,7 @@ _vg_line_cap_from_cairo (cairo_line_cap_t cap)
 {
     switch (cap) {
 
-    //TODO add LINE_CAP_TRIANGULAR, search VG_CAP_...
+    //TODO add LINE_CAP_TRIANGULAR, search VG_CAP_... looks like there is no Triangular VG cap
 
     case CAIRO_LINE_CAP_BUTT:   return VG_CAP_BUTT;
     case CAIRO_LINE_CAP_ROUND:  return VG_CAP_ROUND;
