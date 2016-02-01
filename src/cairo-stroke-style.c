@@ -219,7 +219,7 @@ _cairo_stroke_style_dash_stroked (const cairo_stroke_style_t *style)
     double stroked, cap_scale;
     unsigned int i;
 
-    //TODO DONE? add LINE_CAP_TRIANGULAR
+    //TODO DONE add LINE_CAP_TRIANGULAR
 
     switch (style->line_cap) {
     default: ASSERT_NOT_REACHED;
@@ -331,7 +331,7 @@ _cairo_stroke_style_dash_approximate (const cairo_stroke_style_t *style,
 	dashes[0] = 0.0;
 	break;
 	
-    //TODO add LINE_CAP_TRIANGULAR
+    //TODO DONE add LINE_CAP_TRIANGULAR
 
     case CAIRO_LINE_CAP_BUTT:
         /* Simplified formula (substituting 0 for cap_scale): */
@@ -342,6 +342,12 @@ _cairo_stroke_style_dash_approximate (const cairo_stroke_style_t *style,
         dashes[0] = MAX(scale * (coverage - ROUND_MINSQ_APPROXIMATION) / (1.0 - ROUND_MINSQ_APPROXIMATION),
 			scale * coverage - ROUND_MINSQ_APPROXIMATION * style->line_width);
 	break;
+
+    case CAIRO_LINE_CAP_TRIANGULAR:
+        dashes[0] = MAX(scale * (coverage - 0.5) / (1.0 - 0.5),
+			scale * coverage - 0.5 * style->line_width);
+	break;
+
 
     case CAIRO_LINE_CAP_SQUARE:
         /*

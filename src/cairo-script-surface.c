@@ -401,11 +401,12 @@ _line_cap_to_string (cairo_line_cap_t line_cap)
 {
     static const char *names[] = {
 
-    //TODO add LINE_CAP_TRIANGULAR, check where this comes from
+    //TODO DONE add LINE_CAP_TRIANGULAR, check where this comes from
 
 	"LINE_CAP_BUTT",	/* CAIRO_LINE_CAP_BUTT */
 	"LINE_CAP_ROUND",	/* CAIRO_LINE_CAP_ROUND */
-	"LINE_CAP_SQUARE"	/* CAIRO_LINE_CAP_SQUARE */
+	"LINE_CAP_SQUARE",	/* CAIRO_LINE_CAP_SQUARE */
+	"LINE_CAP_TRIANGULAR"   /* CAIRO_LINE_CAP_TRIANGULAR */
     };
     assert (line_cap < ARRAY_LENGTH (names));
     return names[line_cap];
