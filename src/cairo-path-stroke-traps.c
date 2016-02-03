@@ -552,6 +552,7 @@ add_cap (struct stroker *stroker, cairo_stroke_face_t *f)
 	fvector.dx = _cairo_fixed_from_double (dx);
 	fvector.dy = _cairo_fixed_from_double (dy);
 
+	/* can we remove point quad[2]? */
 	quad[0] = f->cw;
 	quad[1].x = (f->cw.x + f->ccw.x) / 2 + fvector.dx;
 	quad[1].y = (f->cw.y + f->ccw.y) / 2 + fvector.dy;

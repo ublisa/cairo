@@ -704,6 +704,7 @@ _cairo_stroker_add_cap (cairo_stroker_t *stroker,
 	fvector.dx = _cairo_fixed_from_double (dx);
 	fvector.dy = _cairo_fixed_from_double (dy);
 
+	/* can we remove point quad[2]? */
 	quad[0] = f->ccw;
 	quad[1].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
 	quad[1].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;

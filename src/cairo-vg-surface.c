@@ -682,9 +682,11 @@ _vg_line_cap_from_cairo (cairo_line_cap_t cap)
 
     //TODO NOT LOOKING GOOD add LINE_CAP_TRIANGULAR, search VG_CAP_... looks like there is no Triangular VG cap
 
-    case CAIRO_LINE_CAP_BUTT:   return VG_CAP_BUTT;
-    case CAIRO_LINE_CAP_ROUND:  return VG_CAP_ROUND;
-    case CAIRO_LINE_CAP_SQUARE: return VG_CAP_SQUARE;
+    case CAIRO_LINE_CAP_BUTT:         return VG_CAP_BUTT;
+    case CAIRO_LINE_CAP_ROUND:        return VG_CAP_ROUND;
+    case CAIRO_LINE_CAP_SQUARE:       return VG_CAP_SQUARE;
+    /* OpenVG does not have a triangular cap style */
+    case CAIRO_LINE_CAP_TRIANGULAR:   return VG_CAP_BUTT;
     }
 
     ASSERT_NOT_REACHED;

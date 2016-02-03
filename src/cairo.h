@@ -758,7 +758,7 @@ cairo_set_line_width (cairo_t *cr, double width);
  * @CAIRO_LINE_CAP_BUTT: start(stop) the line exactly at the start(end) point (Since 1.0)
  * @CAIRO_LINE_CAP_ROUND: use a round ending, the center of the circle is the end point (Since 1.0)
  * @CAIRO_LINE_CAP_SQUARE: use squared ending, the center of the square is the end point (Since 1.0)
- * @CAIRO_LINE_CAP_TRIANGULAR: use triangular ending, the center of the diamond is the end point (Since 1.0)
+ * @CAIRO_LINE_CAP_TRIANGULAR: use triangular ending, the center of the diamond is the end point (Since 1.16)
  *
  * Specifies how to render the endpoints of the path when stroking.
  *

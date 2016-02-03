@@ -601,9 +601,6 @@ static void
 add_cap (struct stroker *stroker,
 	 const cairo_stroke_face_t *f)
 {
-
-    //TODO FIXED CONFUSION add LINE_CAP_TRIANGULAR
-
     switch (stroker->style.line_cap) {
     case CAIRO_LINE_CAP_ROUND: {
 	cairo_slope_t slope;
@@ -630,32 +627,41 @@ add_cap (struct stroker *stroker,
 	fvector.dx = _cairo_fixed_from_double (dx);
 	fvector.dy = _cairo_fixed_from_double (dy);
 
-	p.x = f->ccw.x + fvector.dx;
-	p.y = f->ccw.y + fvector.dy;
-	contour_add_point (stroker, c, &p);
+	quad[0] = f->ccw;
+	quad[1].x = f->ccw.x + fvector.dx;
+	quad[1].y = f->ccw.y + fvector.dy;
+	quad[2].x = f->cw.x + fvector.dx;
+	quad[2].y = f->cw.y + fvector.dy;
+	quad[3] = f->cw;
 
-	p.x = f->cw.x + fvector.dx;
-	p.y = f->cw.y + fvector.dy;
-	contour_add_point (stroker, c, &p);
+	//contour_add_point (stroker, c, &quad[1]);
+	//contour_add_point (stroker, c, &quad[2]);
 	break;
     }
 
     case CAIRO_LINE_CAP_TRIANGULAR: {
-	cairo_slope_t fvector;
-	cairo_point_t p;
 	double dx, dy;
+	cairo_slope_t	fvector;
+	cairo_point_t	quad[4];
 
 	dx = f->usr_vector.x;
 	dy = f->usr_vector.y;
-	dx *= stroker->half_line_width;
-	dy *= stroker->half_line_width;
+	dx *= stroker->style.line_width / 2.0;
+	dy *= stroker->style.line_width / 2.0;
 	cairo_matrix_transform_distance (stroker->ctm, &dx, &dy);
 	fvector.dx = _cairo_fixed_from_double (dx);
 	fvector.dy = _cairo_fixed_from_double (dy);
 
-	p.x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
-	p.y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
-	contour_add_point (stroker, c, &p);
+	/* can we remove point quad[2]? */
+	quad[0] = f->ccw;
+	quad[1].x = (f->ccw.x + f->cw.x)/2 + fvector.dx;
+	quad[1].y = (f->ccw.y + f->cw.y)/2 + fvector.dy;
+	quad[2].x = quad[1].x;
+	quad[2].y = quad[1].y;
+	quad[3] = f->cw;
+
+	//contour_add_point (stroker, c, &quad[1]);
+	//contour_add_point (stroker, c, &quad[2]);
 	break;
     }
 
@@ -663,7 +669,7 @@ add_cap (struct stroker *stroker,
     default:
 	break;
     }
-    contour_add_point (stroker, c, &f->cw);
+    //contour_add_point (stroker, c, &f->cw);
 }
 
 static void

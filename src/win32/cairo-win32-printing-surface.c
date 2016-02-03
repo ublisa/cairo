@@ -1405,6 +1405,9 @@ _cairo_win32_line_cap (cairo_line_cap_t cap)
 	return PS_ENDCAP_ROUND;
     case CAIRO_LINE_CAP_SQUARE:
 	return PS_ENDCAP_SQUARE;
+    /* There is no triangular cap; check out PS_USERSTYLE */
+    case CAIRO_LINE_CAP_TRIANGULAR:
+	return PS_ENDCAP_FLAT;
     default:
 	ASSERT_NOT_REACHED;
 	return 0;

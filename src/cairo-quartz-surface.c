@@ -587,6 +587,10 @@ _cairo_quartz_cairo_line_cap_to_quartz (cairo_line_cap_t ccap)
 
     case CAIRO_LINE_CAP_SQUARE:
 	return kCGLineCapSquare;
+
+    /* There is no triangular line cap */
+    case CAIRO_LINE_CAP_TRIANGULAR:
+	return kCGLineCapButt;
     }
 }
 
