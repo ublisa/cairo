@@ -694,7 +694,9 @@ _cairo_stroker_add_cap (cairo_stroker_t *stroker,
     case CAIRO_LINE_CAP_TRIANGULAR: {
 	double dx, dy;
 	cairo_slope_t	fvector;
-	cairo_point_t	quad[4]; // ??? Don't know if 3 works, looks like must be quad
+	cairo_point_t	triangle[3];
+
+	printf("cairo-path-stroke.c clear\n");
 
 	dx = f->usr_vector.x;
 	dy = f->usr_vector.y;
@@ -704,35 +706,29 @@ _cairo_stroker_add_cap (cairo_stroker_t *stroker,
 	fvector.dx = _cairo_fixed_from_double (dx);
 	fvector.dy = _cairo_fixed_from_double (dy);
 
-	/* can we remove point quad[2]? */
-	quad[0] = f->ccw;
-	quad[1].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
-	quad[1].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
-	quad[2].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
-	quad[2].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
-	quad[3] = f->cw;
+	triangle[0] = f->ccw;
+	triangle[1].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
+	triangle[1].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
+	triangle[2] = f->cw;
 
 	if (stroker->add_external_edge != NULL) {
+	    printf("  stroker->add_external_edge != NULL\n");
 	    cairo_status_t status;
 
 	    status = stroker->add_external_edge (stroker->closure,
-						 &quad[0], &quad[1]);
+						 &triangle[0], &triangle[1]);
 	    if (unlikely (status))
 		return status;
 
 	    status = stroker->add_external_edge (stroker->closure,
-						 &quad[1], &quad[2]);
-	    if (unlikely (status))
-		return status;
-
-	    status = stroker->add_external_edge (stroker->closure,
-						 &quad[2], &quad[3]);
+						 &triangle[1], &triangle[2]);
 	    if (unlikely (status))
 		return status;
 
 	    return CAIRO_STATUS_SUCCESS;
 	} else {
-	    return stroker->add_convex_quad (stroker->closure, quad);
+	    printf("  stroker->add_external_edge == NULL\n");
+	    return stroker->add_triangle (stroker->closure, triangle);
 	}
     }
 

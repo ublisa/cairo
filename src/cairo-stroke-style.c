@@ -219,6 +219,8 @@ _cairo_stroke_style_dash_stroked (const cairo_stroke_style_t *style)
     double stroked, cap_scale;
     unsigned int i;
 
+    printf("cairo-stroke-style.c part 1 clear");
+
     //TODO DONE add LINE_CAP_TRIANGULAR
 
     switch (style->line_cap) {
@@ -325,6 +327,9 @@ _cairo_stroke_style_dash_approximate (const cairo_stroke_style_t *style,
      * So when second > first, the second solution is the correct one (i.e.
      * the solution is always MAX (first, second).
      */
+
+    printf("cairostroke-style.c part 2 clear");
+
     switch (style->line_cap) {
     default:
         ASSERT_NOT_REACHED;

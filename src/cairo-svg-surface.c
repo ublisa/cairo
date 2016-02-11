@@ -2095,6 +2095,8 @@ _cairo_svg_surface_emit_stroke_style (cairo_output_stream_t	   *output,
     const char *line_cap, *line_join;
     unsigned int i;
 
+    printf("cairo-svg-surface.c clear");
+
     switch (stroke_style->line_cap) {
 
     //TODO DONE add LINE_CAP_TRIANGULAR, check words again

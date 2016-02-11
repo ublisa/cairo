@@ -173,6 +173,9 @@ _antialias_to_string (cairo_antialias_t antialias)
 static const char *
 _line_cap_to_string (cairo_line_cap_t line_cap)
 {
+
+    printf("cairo-xml-surface.c clear");
+
     static const char *names[] = {
 
     //TODO DONE add LINE_CAP_TRIANGULAR
