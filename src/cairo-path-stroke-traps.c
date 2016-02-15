@@ -542,10 +542,9 @@ add_cap (struct stroker *stroker, cairo_stroke_face_t *f)
     case CAIRO_LINE_CAP_TRIANGULAR: {
 	double dx, dy;
 	cairo_slope_t fvector;
-	cairo_point_t triangle[3];
+	cairo_point_t quad[4];
 
 	printf("cairo-path-stroke-traps.c clear\n");
-
 	dx = f->usr_vector.x;
 	dy = f->usr_vector.y;
 	dx *= stroker->half_line_width;
@@ -555,12 +554,14 @@ add_cap (struct stroker *stroker, cairo_stroke_face_t *f)
 	fvector.dy = _cairo_fixed_from_double (dy);
 
 	/* can we remove point quad[2]? */
-	triangle[0] = f->ccw;
-	triangle[1].x = (f->ccw.x + f->cw.x) / 2 + fvector.dx;
-	triangle[1].y = (f->ccw.y + f->cw.y) / 2 + fvector.dy;
-	triangle[2] = f->cw;
+	quad[0] = f->cw;
+	quad[1].x = (f->cw.x + f->ccw.x) / 2 + fvector.dx;
+	quad[1].y = (f->cw.y + f->ccw.y) / 2 + fvector.dy;
+	quad[2].x = quad[1].x;
+	quad[2].y = quad[1].y;
+	quad[3] = f->ccw;
 
-	_cairo_traps_tessellate_triangle_with_edges (stroker->traps, triangle);
+	_cairo_traps_tessellate_convex_quad (stroker->traps, quad);
 	break;
     }
 
