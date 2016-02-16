@@ -791,7 +791,7 @@ add_cap (struct stroker *stroker,
 	cairo_point_t p;
 	double dx, dy;
 
-	printf("cairo-path-stroke-polygon.c clear");
+	printf("cairo-path-stroke-polygon.c clear\n");
 
 	dx = f->usr_vector.x;
 	dy = f->usr_vector.y;

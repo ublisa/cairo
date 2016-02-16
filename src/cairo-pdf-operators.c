@@ -589,7 +589,9 @@ _cairo_pdf_line_cap (cairo_line_cap_t cap)
     case CAIRO_LINE_CAP_SQUARE:
 	return 2;
     case CAIRO_LINE_CAP_TRIANGULAR:
-	return 3;
+	/* PDF has no triangular caps. Use butt caps instead. */
+	printf("cairo-pdf-operators.c clear\n");
+	return 0;
     default:
 	ASSERT_NOT_REACHED;
 	return 0;
